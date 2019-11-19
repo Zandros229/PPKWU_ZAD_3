@@ -10,10 +10,3 @@ Zapytania:
 http://localhost:8080/calendar/thisMonth
 Odpowiedź:
 plik ics z kalendarzem z aktualnego miesiąca
-
-Linki dostępne na heroku
-dla obecnego miesiąca:
-https://ppkwu-zad3.herokuapp.com/calendar/thisMonth
-dla następnego miesiąca:
-https://ppkwu-zad3.herokuapp.com/calendar/nextMonth
-
