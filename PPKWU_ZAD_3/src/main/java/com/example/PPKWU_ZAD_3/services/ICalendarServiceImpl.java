@@ -46,7 +46,7 @@ public class ICalendarServiceImpl implements ICalendarService {
             month = 1;
             year = year + 1;
         }
-        String url = "http://www.weeia.p.lodz.pl/pliki_strony_kontroler/kalendarz.php?rok=" + month + "&miesiac=" + year + "&lang=1";
+        String url = "http://www.weeia.p.lodz.pl/pliki_strony_kontroler/kalendarz.php?rok=" + year + "&miesiac=" + month + "&lang=1";
         generateCalendar(getCalendarEvent(getWebsiteHTML(url)), month, year);
         File calendarFile = new File("calendar.ics");
         Biweekly.write(iCalendar).go(calendarFile);
