@@ -29,7 +29,7 @@ public class ICalendarServiceImpl implements ICalendarService {
         month++;
         String url = "http://www.weeia.p.lodz.pl/pliki_strony_kontroler/kalendarz.php?rok=" + year + "&miesiac=" + month + "&lang=1";
         generateCalendar(getCalendarEvent(getWebsiteHTML(url)), month, year);
-        File calendarFile = new File("calendar.ics");
+        File calendarFile = new File("thisMonth.ics");
         Biweekly.write(iCalendar).go(calendarFile);
         return calendarFile;
     }
@@ -39,16 +39,17 @@ public class ICalendarServiceImpl implements ICalendarService {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date(System.currentTimeMillis());
         int month = date.getMonth();
-        month++;
+        month+=2;
         int year = date.getYear();
         year += 1900;
-        if (date.getMonth() == 12) {
+        if (date.getMonth() >= 13) {
             month = 1;
             year = year + 1;
         }
+
         String url = "http://www.weeia.p.lodz.pl/pliki_strony_kontroler/kalendarz.php?rok=" + year + "&miesiac=" + month + "&lang=1";
         generateCalendar(getCalendarEvent(getWebsiteHTML(url)), month, year);
-        File calendarFile = new File("calendar.ics");
+        File calendarFile = new File("nextMonth.ics");
         Biweekly.write(iCalendar).go(calendarFile);
         return calendarFile;
     }
@@ -59,7 +60,7 @@ public class ICalendarServiceImpl implements ICalendarService {
             event.setSummary(calendarEvent.getEventName());
             Date eventDate = new GregorianCalendar(year, month, Integer.valueOf(calendarEvent.getEventDay())).getTime();
             event.setDateStart(eventDate);
-            event.setDateEnd(eventDate);
+            event.setDateEnd(eventDate);    
             iCalendar.addEvent(event);
         }
     }
