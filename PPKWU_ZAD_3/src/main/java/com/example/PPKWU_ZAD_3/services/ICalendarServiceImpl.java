@@ -60,7 +60,7 @@ public class ICalendarServiceImpl implements ICalendarService {
             event.setSummary(calendarEvent.getEventName());
             Date eventDate = new GregorianCalendar(year, month, Integer.valueOf(calendarEvent.getEventDay())).getTime();
             event.setDateStart(eventDate);
-            event.setDateEnd(eventDate);    
+            event.setDateEnd(eventDate);
             iCalendar.addEvent(event);
         }
     }

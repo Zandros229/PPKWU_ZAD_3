@@ -1,0 +1,19 @@
+po uruchomieniu aplikacji wchodzimy na link:
+żeby dostać obecny miesiąc:
+http://localhost:8080/calendar/thisMonth
+żeby dostać następny miesiąc:
+http://localhost:8080/calendar/nextMonth
+
+w odpowiedzi otrzymujemy plik ics który możemy eksportować do kalendarza z kalendarza wydarzeń na stronie weei
+
+Zapytania:
+http://localhost:8080/calendar/thisMonth
+Odpowiedź:
+plik ics z kalendarzem z aktualnego miesiąca
+
+Linki dostępne na heroku
+dla obecnego miesiąca:
+https://ppkwu-zad3.herokuapp.com/calendar/thisMonth
+dla następnego miesiąca:
+https://ppkwu-zad3.herokuapp.com/calendar/nextMonth
+
