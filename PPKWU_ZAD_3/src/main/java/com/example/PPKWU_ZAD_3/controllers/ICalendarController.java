@@ -7,6 +7,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +22,7 @@ public class ICalendarController {
     private ICalendarService iCalendarService;
 
     @GetMapping("calendar/thisMonth")
-    public ResponseEntity<Resource> november() throws IOException {
+    public ResponseEntity<Resource> thisMonth() throws IOException {
         File file = iCalendarService.generateThisMonth();
         Resource fileSystemResource = new FileSystemResource(file);
         return ResponseEntity.ok()
@@ -30,11 +31,11 @@ public class ICalendarController {
     }
 
     @GetMapping("calendar/nextMonth")
-    public ResponseEntity<Resource> december() throws IOException {
+    public ResponseEntity<Resource> nextMonth() throws IOException {
         File file = iCalendarService.generateNextMonth();
         Resource fileSystemResource = new FileSystemResource(file);
         return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .contentType(MediaType.parseMediaType("text/calendar"))
                 .body(fileSystemResource);
     }
 

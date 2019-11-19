@@ -17,17 +17,18 @@ import java.util.*;
 @Service
 public class ICalendarServiceImpl implements ICalendarService {
 
-    public static final String HTTP_NOVEMBER = "http://www.weeia.p.lodz.pl/pliki_strony_kontroler/kalendarz.php?rok=2019&miesiac=11&lang=1";
-    public static final String HTTP_DECEMBER = "http://www.weeia.p.lodz.pl/pliki_strony_kontroler/kalendarz.php?rok=2019&miesiac=12&lang=1";
-
     private static ICalendar iCalendar = new ICalendar();
 
     @Override
     public File generateThisMonth() throws IOException {
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date(System.currentTimeMillis());
-        String url = "http://www.weeia.p.lodz.pl/pliki_strony_kontroler/kalendarz.php?rok=" + date.getYear() + "&miesiac=" + date.getMonth() + "&lang=1";
-        generateCalendar(getCalendarEvent(getWebsiteHTML(HTTP_NOVEMBER)), Calendar.NOVEMBER, 2019);
+        int year = date.getYear();
+        year += 1900;
+        int month = date.getMonth();
+        month++;
+        String url = "http://www.weeia.p.lodz.pl/pliki_strony_kontroler/kalendarz.php?rok=" + year + "&miesiac=" + month + "&lang=1";
+        generateCalendar(getCalendarEvent(getWebsiteHTML(url)), month, year);
         File calendarFile = new File("calendar.ics");
         Biweekly.write(iCalendar).go(calendarFile);
         return calendarFile;
@@ -35,14 +36,25 @@ public class ICalendarServiceImpl implements ICalendarService {
 
     @Override
     public File generateNextMonth() throws IOException {
-        generateCalendar(getCalendarEvent(getWebsiteHTML(HTTP_DECEMBER)), Calendar.DECEMBER, 2019);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(System.currentTimeMillis());
+        int month = date.getMonth();
+        month++;
+        int year = date.getYear();
+        year += 1900;
+        if (date.getMonth() == 12) {
+            month = 1;
+            year = year + 1;
+        }
+        String url = "http://www.weeia.p.lodz.pl/pliki_strony_kontroler/kalendarz.php?rok=" + month + "&miesiac=" + year + "&lang=1";
+        generateCalendar(getCalendarEvent(getWebsiteHTML(url)), month, year);
         File calendarFile = new File("calendar.ics");
         Biweekly.write(iCalendar).go(calendarFile);
         return calendarFile;
     }
 
     private static void generateCalendar(List<CalendarEvent> calendarEventList, int month, int year) {
-        for (CalendarEvent  calendarEvent: calendarEventList) {
+        for (CalendarEvent calendarEvent : calendarEventList) {
             VEvent event = new VEvent();
             event.setSummary(calendarEvent.getEventName());
             Date eventDate = new GregorianCalendar(year, month, Integer.valueOf(calendarEvent.getEventDay())).getTime();
